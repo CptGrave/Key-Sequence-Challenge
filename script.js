@@ -57,6 +57,10 @@ function startTimer(duration, display) {
 
       display.textContent = minutes + ":" + seconds;
 
+      if (display.textContent === "00:00") {
+        gameStop();
+      }
+
       if (--timer < 0) {
           timer = duration;
       }
