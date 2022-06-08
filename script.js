@@ -19,7 +19,8 @@ function getRandomWord(){
 }
 //Wrzucanie liter do arraya
   window.addEventListener('keyup', (e) => {
-    pressed.push(e.key);
+    if (gameStarted === 1) {
+      pressed.push(e.key);
     pressed.splice(-yourWord.length - 1, pressed.length - yourWord.length);
     if (pressed.join('').includes(yourWord)) {
       points += 1;
@@ -31,8 +32,13 @@ function getRandomWord(){
     }
     typing.textContent = "Your typing " + "[" + pressed + " ]";
     word.textContent = "Your word is : " + yourWord;
+    }
+    
     
   });
+
+
+  
 //Start gry
 
   function gameStart() {
@@ -85,6 +91,7 @@ function gameStop() {
   gameStarted = 0;
   word.textContent = "Your word is : ";
   document.querySelector("#points").textContent = "Your points = ";
+  points = 0;
 }
 //Do zrobienia - zapisanie wyniku w tabeli (localstorage)
 
