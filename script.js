@@ -44,7 +44,11 @@ function getRandomWord(){
     }
     gameStarted = 1;
   }
-
+//Czyszczenie zegara
+function ClearAllIntervals() {
+  for (var i = 1; i < 99999; i++)
+      window.clearInterval(i);
+}
 //Zegar (znalazlem go gdzies w necie)
 function startTimer(duration, display) {
   var timer = duration, minutes, seconds;
@@ -59,6 +63,7 @@ function startTimer(duration, display) {
 
       if (display.textContent === "00:00") {
         gameStop();
+        ClearAllIntervals();
       }
 
       if (--timer < 0) {
@@ -78,17 +83,14 @@ function timeStart () {
 function gameStop() {
   console.log("game should stop")
   gameStarted = 0;
-  //zapisywanie punktow w pamieci
-  //reset gry
-  //wyczyszczenie zegara
-  word.textContent = "Your word is : "
-  document.querySelector("#points").textContent = "Your points = "
+  word.textContent = "Your word is : ";
+  document.querySelector("#points").textContent = "Your points = ";
 }
-//Do zrobienia - zatrzymanie gry po koncu czasu, zapisanie wyniku w tabeli (localstorage)
-
-// Nie moge zrobić takiego if() zeby mi ta funkcja gameStop() zadzialala, albo nie wiem jak albo nie wiem gdzie ja wsadzic, probowalem roznych dziwnych rzeczy xD trzeba tez zatrzymac ten timer i interval
-// Nie wiem czemu nie moge po prostu zrobic tego w dowolnym miejscu if(elementGdzieJestZegar.textContent = "00:00" & gameStarted = 1) { gameStop() }         
+//Do zrobienia - zapisanie wyniku w tabeli (localstorage)
 
 
-start.addEventListener("click", gameStart)
+         
+
+
+start.addEventListener("click", gameStart);
 
