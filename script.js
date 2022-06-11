@@ -7,6 +7,7 @@ var word = document.querySelector("#yourWord");
 var time = document.querySelector("#yourTime");
 var gameStarted = 0;
 var yourWord = getRandomWord();
+const LOCAL_STORAGE_HIGHSCORE_KEY = "HIGH_SCORES";
 
 // Losowanie slowek
 function getRandomWord(){
@@ -20,6 +21,7 @@ function getRandomWord(){
 }
 
 // Wrzucanie liter do arraya
+renderHighScores();
 window.addEventListener('keyup', (e) => {
   if (gameStarted === 1) {
     pressed.push(e.key);
@@ -84,13 +86,64 @@ function timeStart () {
 
 // Koniec gry
 function gameStop() {
+  console.log(2);
   console.log("game should stop")
   gameStarted = 0;
   word.textContent = "Your word is : ";
   document.querySelector("#points").textContent = "Your points = ";
+  console.log(2);
+  addHighScore({ name: "Random name", points });
+  renderHighScores();
   points = 0;
 }
 
+function addHighScore({ name, points }) {
+  // Read from local storage
+  let highScores = getHighScores()
+
+  // Add new score
+  highScores.push({ name, points, date: new Date().toISOString() });
+  highScores = highScores.sort((a, b) => a <= b).slice(0, 10);
+
+  console.log(highScores)
+  // Save to local storage
+  localStorage.setItem(LOCAL_STORAGE_HIGHSCORE_KEY, JSON.stringify(highScores));
+}
+
+function getHighScores() {
+  const highScores = JSON.parse(localStorage.getItem(LOCAL_STORAGE_HIGHSCORE_KEY)) || [];
+  return highScores.map(highScore => {
+    highScore.date = new Date(highScore.date);
+    return highScore;
+  })
+}
+
+function renderHighScores() {
+  const tableNode = document.querySelector("#highScores tbody");
+
+  tableNode.innerHTML = "";
+
+  getHighScores().forEach(highScore => {
+    tableNode.appendChild(
+      htmlToElements(`<tr>
+        <td>${highScore.name}</td>
+        <td>${highScore.date.toISOString().split('T')[0]}</td>
+        <td>${highScore.points}</td>
+        </tr>`
+      ))
+  })
+}
+
+function resetHighScores() {
+  localStorage.removeItem(LOCAL_STORAGE_HIGHSCORE_KEY);
+  renderHighScores();
+}
+
+function htmlToElements(html) {
+  var template = document.createElement('template');
+  template.innerHTML = html;
+  return template.content.firstChild;
+}
 // Do zrobienia - zapisanie wyniku w tabeli (localstorage)
 start.addEventListener("click", gameStart);
 
