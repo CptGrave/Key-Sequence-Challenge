@@ -19,7 +19,8 @@ function getRandomWord(){
 }
 //Wrzucanie liter do arraya
   window.addEventListener('keyup', (e) => {
-    pressed.push(e.key);
+    if (gameStarted === 1) {
+      pressed.push(e.key);
     pressed.splice(-yourWord.length - 1, pressed.length - yourWord.length);
     if (pressed.join('').includes(yourWord)) {
       points += 1;
@@ -31,8 +32,13 @@ function getRandomWord(){
     }
     typing.textContent = "Your typing " + "[" + pressed + " ]";
     word.textContent = "Your word is : " + yourWord;
+    }
+    
     
   });
+
+
+  
 //Start gry
 
   function gameStart() {
@@ -44,7 +50,11 @@ function getRandomWord(){
     }
     gameStarted = 1;
   }
-
+//Czyszczenie zegara
+function ClearAllIntervals() {
+  for (var i = 1; i < 99999; i++)
+      window.clearInterval(i);
+}
 //Zegar (znalazlem go gdzies w necie)
 function startTimer(duration, display) {
   var timer = duration, minutes, seconds;
@@ -56,6 +66,11 @@ function startTimer(duration, display) {
       seconds = seconds < 10 ? "0" + seconds : seconds;
 
       display.textContent = minutes + ":" + seconds;
+
+      if (display.textContent === "00:00") {
+        gameStop();
+        ClearAllIntervals();
+      }
 
       if (--timer < 0) {
           timer = duration;
@@ -74,17 +89,15 @@ function timeStart () {
 function gameStop() {
   console.log("game should stop")
   gameStarted = 0;
-  //zapisywanie punktow w pamieci
-  //reset gry
-  //wyczyszczenie zegara
-  word.textContent = "Your word is : "
-  document.querySelector("#points").textContent = "Your points = "
+  word.textContent = "Your word is : ";
+  document.querySelector("#points").textContent = "Your points = ";
+  points = 0;
 }
-//Do zrobienia - zatrzymanie gry po koncu czasu, zapisanie wyniku w tabeli (localstorage)
-
-// Nie moge zrobić takiego if() zeby mi ta funkcja gameStop() zadzialala, albo nie wiem jak albo nie wiem gdzie ja wsadzic, probowalem roznych dziwnych rzeczy xD trzeba tez zatrzymac ten timer i interval
-// Nie wiem czemu nie moge po prostu zrobic tego w dowolnym miejscu if(elementGdzieJestZegar.textContent = "00:00" & gameStarted = 1) { gameStop() }         
+//Do zrobienia - zapisanie wyniku w tabeli (localstorage)
 
 
-start.addEventListener("click", gameStart)
+         
+
+
+start.addEventListener("click", gameStart);
 
