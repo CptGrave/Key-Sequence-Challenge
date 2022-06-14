@@ -5,11 +5,11 @@ const start = document.querySelector("#start");
 var typing = document.querySelector("#typing");
 var word = document.querySelector("#yourWord");
 var time = document.querySelector("#yourTime");
-var gameStarted = 0;
+var gameStarted = false;
 var yourWord = getRandomWord();
 const LOCAL_STORAGE_HIGHSCORE_KEY = "HIGH_SCORES";
 
-// Losowanie slowek
+// Getting random words
 function getRandomWord(){
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -19,11 +19,11 @@ function getRandomWord(){
 
   return words[getRandomInt(0, words.length)];
 }
-
-// Wrzucanie liter do arraya
 renderHighScores();
+// Pushing letters to array
+
 window.addEventListener('keyup', (e) => {
-  if (gameStarted === 1) {
+  if (gameStarted === true) {
     pressed.push(e.key);
     pressed.splice(-yourWord.length - 1, pressed.length - yourWord.length);
     if (pressed.join('').includes(yourWord)) {
@@ -33,19 +33,19 @@ window.addEventListener('keyup', (e) => {
       audio.play();
     }
     typing.textContent = "Your typing " + "[" + pressed + " ]";
-    word.textContent = "Your word is : " + yourWord;
+    word.textContent = "Your word is: " + yourWord;
   }
 });
 
-// Start gry
+// Start game
 function gameStart() {
   word.textContent = "Your word is: " + yourWord;
 
-  if (gameStarted === 0) {
+  if (gameStarted === false) {
     timeStart()
   }
 
-  gameStarted = 1;
+  gameStarted = true;
 }
 
 // Czyszczenie zegara
@@ -54,7 +54,7 @@ function ClearAllIntervals() {
     window.clearInterval(i);
 }
 
-// Zegar (znalazlem go gdzies w necie)
+// Clock
 function startTimer(duration, display) {
   var timer = duration, minutes, seconds;
   setInterval(function () {
@@ -84,12 +84,12 @@ function timeStart () {
   startTimer(oneMinute, display);
 };
 
-// Koniec gry
+// Game ends
 function gameStop() {
   console.log(2);
   console.log("game should stop")
-  gameStarted = 0;
-  word.textContent = "Your word is : ";
+  gameStarted = false;
+  word.textContent = "Your word is: ";
   document.querySelector("#points").textContent = "Your points = ";
   console.log(2);
   addHighScore({ name: "Random name", points });
@@ -105,7 +105,7 @@ function addHighScore({ name, points }) {
   highScores.push({ name, points, date: new Date().toISOString() });
   highScores = highScores.sort((a, b) => a <= b).slice(0, 10);
 
-  console.log(highScores)
+  
   // Save to local storage
   localStorage.setItem(LOCAL_STORAGE_HIGHSCORE_KEY, JSON.stringify(highScores));
 }
@@ -144,6 +144,6 @@ function htmlToElements(html) {
   template.innerHTML = html;
   return template.content.firstChild;
 }
-// Do zrobienia - zapisanie wyniku w tabeli (localstorage)
+
 start.addEventListener("click", gameStart);
 
