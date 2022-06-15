@@ -12,15 +12,25 @@
 </head>
 <body>
     <audio id = "audio" src = "pointplus.wav"></audio>
-    <form ></form>
     
     <button id="start" type="button" class="btn btn-primary btn-lg">Start</button>
-    <div id="yourTime">01:00</div>
-    <div id="points">Your points = 0</div>
-    <div id="typing">Your typing</div>
-    <div id="yourWord">Your word is : </div>
+    
+    <br><br>
+    <form>
+      <div class="mb-3" data-template="playerName">
+        <input id = "playerName" type="text" class="form-control">
+      </div>
+    </form>
 
-    <h5>High scores</h5>
+    <h4 id="yourTime">01:00</h4>
+
+    <h4 id="points">Your points = 0</h4>
+
+    <h4 id="typing">Your typing</h4>
+
+    <h4 id="yourWord">Your word is: </h4>
+
+    <h3>High scores</h3>
     <table id="highScores" class="table">
       <thead>
         <tr>
