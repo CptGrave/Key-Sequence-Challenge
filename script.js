@@ -94,7 +94,7 @@ function gameStop() {
   gameStarted = false;
   word.textContent = "Your word is: ";
   document.querySelector("#points").textContent = "Your points = ";
-  addHighScore({ name: "Random name", points });
+  addHighScore({ name: playerName, points });
   renderHighScores();
   points = 0;
 }
