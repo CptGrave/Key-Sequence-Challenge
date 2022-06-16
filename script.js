@@ -105,8 +105,7 @@ function addHighScore({ name, points }) {
 
   // Add new score
   highScores.push({ name, points, date: new Date().toISOString() });
-  highScores = highScores.sort((a, b) => a <= b).slice(0, 10);
-
+  highScores = highScores.sort((a, b) => b.points - a.points).slice(0, 10);
   
   // Save to local storage
   localStorage.setItem(LOCAL_STORAGE_HIGHSCORE_KEY, JSON.stringify(highScores));
@@ -148,6 +147,9 @@ function htmlToElements(html) {
 }
 
 function saveName() {
+  if (gameStarted) {
+    return
+  }
   playerName = playerNameForm.value;
 }
 
