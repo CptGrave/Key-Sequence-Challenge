@@ -6,21 +6,10 @@ var typing = document.querySelector("#typing");
 var word = document.querySelector("#yourWord");
 var time = document.querySelector("#yourTime");
 var gameStarted = false;
-var yourWord = getRandomWord();
-const LOCAL_STORAGE_HIGHSCORE_KEY = "HIGH_SCORES";
+var yourWord = getRandomWord(words);
 const playerNameForm = document.querySelector("#playerName");
 var playerName 
 
-// Getting random word
-function getRandomWord(){
-  function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  return words[getRandomInt(0, words.length)];
-}
 
 // Pushing letters to array
 renderHighScores();
@@ -30,7 +19,7 @@ window.addEventListener('keyup', (e) => {
     pressed.splice(-yourWord.length - 1, pressed.length - yourWord.length);
     if (pressed.join('').includes(yourWord)) {
       points += 1;
-      yourWord = getRandomWord();
+      yourWord = getRandomWord(words);
       document.querySelector("#points").textContent = "Your points = " + points;
       audio.play();
     }
@@ -97,26 +86,6 @@ function gameStop() {
   addHighScore({ name: playerName, points });
   renderHighScores();
   points = 0;
-}
-
-function addHighScore({ name, points }) {
-  // Read from local storage
-  let highScores = getHighScores()
-
-  // Add new score
-  highScores.push({ name, points, date: new Date().toISOString() });
-  highScores = highScores.sort((a, b) => b.points - a.points).slice(0, 10);
-  
-  // Save to local storage
-  localStorage.setItem(LOCAL_STORAGE_HIGHSCORE_KEY, JSON.stringify(highScores));
-}
-
-function getHighScores() {
-  const highScores = JSON.parse(localStorage.getItem(LOCAL_STORAGE_HIGHSCORE_KEY)) || [];
-  return highScores.map(highScore => {
-    highScore.date = new Date(highScore.date);
-    return highScore;
-  })
 }
 
 function renderHighScores() {

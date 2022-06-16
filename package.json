@@ -1,0 +1,22 @@
+{
+  "name": "keysequencechallenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CptGrave/Key-Sequence-Challenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CptGrave/Key-Sequence-Challenge/issues"
+  },
+  "homepage": "https://github.com/CptGrave/Key-Sequence-Challenge#readme",
+  "devDependencies": {
+    "jest": "^28.1.1"
+  }
+}
