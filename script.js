@@ -8,8 +8,8 @@ var time = document.querySelector("#yourTime");
 var gameStarted = false;
 var yourWord = getRandomWord();
 const LOCAL_STORAGE_HIGHSCORE_KEY = "HIGH_SCORES";
-const playerNameForm = document.querySelector("#playerName");
-var playerName 
+var playerNameForm = document.querySelector("#playerName");
+var playerName;
 
 // Getting random word
 function getRandomWord(){
@@ -20,7 +20,7 @@ function getRandomWord(){
   }
 
   return words[getRandomInt(0, words.length)];
-}
+};
 
 // Pushing letters to array
 renderHighScores();
@@ -43,21 +43,22 @@ window.addEventListener('keyup', (e) => {
 function gameStart() {
   word.textContent = "Your word is: " + yourWord;
   
-  if (gameStarted === false) {
+  if (gameStarted === false ) {
     timeStart();
     saveName();
+    hideInfo();
 
     
   }
 
   gameStarted = true;
-}
+};
 
 // Clock cleaning
 function ClearAllIntervals() {
   for (var i = 1; i < 99999; i++)
     window.clearInterval(i);
-}
+};
 
 // Clock
 function startTimer(duration, display) {
@@ -74,13 +75,14 @@ function startTimer(duration, display) {
     if (display.textContent === "00:00") {
       gameStop();
       ClearAllIntervals();
+      display.textContent = "01:00"
     }
 
     if (--timer < 0) {
       timer = duration;
     }
   }, 1000);
-}
+};
 
 function timeStart () {
   var oneMinute = 60 * 1,
@@ -96,8 +98,9 @@ function gameStop() {
   document.querySelector("#points").textContent = "Your points = ";
   addHighScore({ name: playerName, points });
   renderHighScores();
+  showInfo();
   points = 0;
-}
+};
 
 function addHighScore({ name, points }) {
   // Read from local storage
@@ -109,7 +112,7 @@ function addHighScore({ name, points }) {
   
   // Save to local storage
   localStorage.setItem(LOCAL_STORAGE_HIGHSCORE_KEY, JSON.stringify(highScores));
-}
+};
 
 function getHighScores() {
   const highScores = JSON.parse(localStorage.getItem(LOCAL_STORAGE_HIGHSCORE_KEY)) || [];
@@ -117,7 +120,7 @@ function getHighScores() {
     highScore.date = new Date(highScore.date);
     return highScore;
   })
-}
+};
 
 function renderHighScores() {
   const tableNode = document.querySelector("#highScores tbody");
@@ -127,31 +130,39 @@ function renderHighScores() {
   getHighScores().forEach(highScore => {
     tableNode.appendChild(
       htmlToElements(`<tr>
-        <td>${highScore.name}</td>
-        <td>${highScore.date.toISOString().split('T')[0]}</td>
-        <td>${highScore.points}</td>
+        <td class="text-info bg-dark">${highScore.name}</td>
+        <td class="text-info bg-dark">${highScore.date.toISOString().split('T')[0]}</td>
+        <td class="text-info bg-dark">${highScore.points}</td>
         </tr>`
       ))
   })
-}
+};
 
 function resetHighScores() {
   localStorage.removeItem(LOCAL_STORAGE_HIGHSCORE_KEY);
   renderHighScores();
-}
+};
 
 function htmlToElements(html) {
   var template = document.createElement('template');
   template.innerHTML = html;
   return template.content.firstChild;
-}
+};
 
 function saveName() {
   if (gameStarted) {
     return
   }
   playerName = playerNameForm.value;
-}
+};
+
+function hideInfo() {
+  document.querySelector("#info").classList.add("d-none");
+};
+function showInfo() {
+  document.querySelector("#info").classList.remove("d-none");
+};
+
 
 start.addEventListener("click", gameStart);
 
