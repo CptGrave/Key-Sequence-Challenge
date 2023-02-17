@@ -35,13 +35,13 @@ window.addEventListener('keyup', (e) => {
       audio.play();
     }
     typing.textContent = "Your typing " + "[" + pressed + " ]";
-    word.textContent = "Your word is: " + yourWord;
+    word.textContent = yourWord;
   }
 });
 
 // Game start
 function gameStart() {
-  word.textContent = "Your word is: " + yourWord;
+  word.textContent = yourWord;
   
   if (gameStarted === false ) {
     timeStart();
@@ -94,7 +94,7 @@ function timeStart () {
 // Game end
 function gameStop() {
   gameStarted = false;
-  word.textContent = "Your word is: ";
+  // word.textContent = "Your word is: ";
   document.querySelector("#points").textContent = "Your points = ";
   addHighScore({ name: playerName, points });
   renderHighScores();
