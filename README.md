@@ -1,3 +1,3 @@
-# Simple site where you can challenge your typing speed.
+# Simple app where you can challenge your typing speed.
 ## Site was written in Vanilla JS and styled with help of bootstrap.
 
